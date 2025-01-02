@@ -12,6 +12,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+import environ
+import os
+
+# Initialiser l'environnement
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # Charge les variables d'environnement depuis le fichier .env
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,14 +94,7 @@ WSGI_APPLICATION = 'medica.wsgi.application'
     }
 }"""
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),  
-        'PORT': os.getenv('DB_PORT', '3306'),
-    }
+     'default': env.db(),
 }
 
 # REST_FRAMEWORK = {
